@@ -18,7 +18,8 @@
     "setup": "prisma migrate deploy && tsx prisma/seed.ts",
     "admin:create": "tsx scripts/create-admin.ts",
     "audio:enhance": "tsx scripts/enhance-audio.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "quickstart": "node scripts/quickstart.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

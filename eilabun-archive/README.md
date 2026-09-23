@@ -11,8 +11,19 @@ Stack: **Next.js 15 (App Router) · TypeScript · Tailwind CSS · Prisma · SQLi
 
 Requirements: **Node.js 20+** and npm. `ffmpeg` is optional (only needed for the authorized-audio enhancement feature).
 
+**Easiest way (3 commands after `npm install`):**
+
 ```bash
 cd eilabun-archive
+npm install              # download dependencies (once)
+npm run quickstart       # creates .env + secret, database and demo entries
+npm run admin:create     # choose your admin email and password
+npm run dev              # open http://localhost:3000
+```
+
+Manual equivalent:
+
+```bash
 npm install                      # also runs `prisma generate`
 cp .env.example .env             # then edit .env (see §2)
 npx prisma migrate deploy        # create the SQLite database (prisma/dev.db)
