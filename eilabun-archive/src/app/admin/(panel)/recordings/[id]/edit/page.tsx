@@ -63,6 +63,8 @@ export default async function EditRecordingPage({
           recordingId={rec.id}
           isAuthorized={rec.isAuthorized}
           ffmpeg={hasFfmpeg}
+          // Serverless hosts (e.g. Vercel) have no persistent disk for audio files.
+          storageAvailable={!process.env.VERCEL}
           assets={rec.audioAssets.map((a) => ({
             id: a.id,
             kind: a.kind,

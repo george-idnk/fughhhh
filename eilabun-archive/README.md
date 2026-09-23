@@ -172,7 +172,14 @@ Keep `prisma/dev.db` (or your DB) and `STORAGE_DIR` on persistent disk and back 
 
 **PostgreSQL:** in `prisma/schema.prisma` set `provider = "postgresql"`, set `DATABASE_URL=postgresql://user:pass@host:5432/eilabun`, delete `prisma/migrations`, then run `npx prisma migrate dev --name init` once and `npx prisma migrate deploy` on the server.
 
-**Vercel / serverless:** use PostgreSQL (e.g. Neon, Supabase), set the env vars in the dashboard and use `prisma migrate deploy && next build` as the build command. Serverless file systems are ephemeral, so the authorized-audio feature needs a persistent server (or adapt `src/lib/audio.ts` to object storage).
+**Vercel + Neon (free, everything from the browser, no local install):**
+1. Sign in at <https://vercel.com> with GitHub → **Add New → Project** → import this repository.
+2. Set **Root Directory** to `eilabun-archive` (framework: Next.js; leave the build command empty — Vercel runs the `vercel-build` script automatically).
+3. Add **Environment Variables**: `AUTH_SECRET` (≥ 32 random chars), `ADMIN_EMAIL`, `ADMIN_PASSWORD` (≥ 10 chars), optionally `YOUTUBE_API_KEY` and `DEFAULT_LOCALE`.
+4. Deploy. The first deploy fails with “DATABASE_URL must be a PostgreSQL URL” — that is expected: open the project → **Storage → Create Database → Neon (Postgres)** → connect it to the project → **Deployments → Redeploy**.
+5. Open the `https://….vercel.app` link. Admin: `/admin`.
+
+`scripts/vercel-build.mjs` derives a PostgreSQL schema from `prisma/schema.prisma`, runs `prisma db push`, creates/updates the admin from `ADMIN_EMAIL`/`ADMIN_PASSWORD` (change the password there and redeploy to reset it), adds demo entries only when the archive is empty (`SEED_DEMO=false` to skip), then builds. Serverless file systems are not persistent, so the authorized-audio upload/enhancement feature is disabled on Vercel (the admin page says so); use a server with a disk for that.
 
 Always set a strong `AUTH_SECRET` and serve over HTTPS in production.
 

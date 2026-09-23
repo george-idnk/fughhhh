@@ -13,3 +13,4 @@ storage/*
 !storage/.gitkeep
 npm-debug.log*
 .DS_Store
+prisma/postgres/

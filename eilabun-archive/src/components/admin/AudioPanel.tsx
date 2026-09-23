@@ -21,11 +21,13 @@ export default function AudioPanel({
   recordingId,
   isAuthorized,
   ffmpeg,
+  storageAvailable,
   assets,
 }: {
   recordingId: string;
   isAuthorized: boolean;
   ffmpeg: boolean;
+  storageAvailable: boolean;
   assets: Asset[];
 }) {
   const router = useRouter();
@@ -40,6 +42,19 @@ export default function AudioPanel({
           Only available for recordings marked <strong>“Original / authorized audio”</strong> (section 6 above). Third-party
           recordings — for example YouTube videos you do not own — are never downloaded or processed; they are only linked
           and embedded.
+        </p>
+      </section>
+    );
+  }
+
+  if (!storageAvailable) {
+    return (
+      <section className="card p-5">
+        <h2 className="font-display text-xl font-semibold">♪ Authorized audio & enhancement</h2>
+        <p className="mt-2 text-sm text-muted">
+          This hosting (serverless, e.g. Vercel) has no permanent disk, so audio files cannot be stored here. The rest of the
+          archive works normally. To use authorized-audio storage and enhancement, run the archive on a server with a
+          persistent disk (see README → Deploying).
         </p>
       </section>
     );

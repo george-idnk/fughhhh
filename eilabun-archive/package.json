@@ -19,7 +19,8 @@
     "admin:create": "tsx scripts/create-admin.ts",
     "audio:enhance": "tsx scripts/enhance-audio.ts",
     "postinstall": "prisma generate",
-    "quickstart": "node scripts/quickstart.mjs"
+    "quickstart": "node scripts/quickstart.mjs",
+    "vercel-build": "node scripts/vercel-build.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
