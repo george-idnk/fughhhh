@@ -3,7 +3,6 @@ import { requireAdminApi } from "@/lib/admin-api";
 import { enhanceOriginal, ffmpegAvailable, parseEnhanceSettings } from "@/lib/audio";
 
 export const runtime = "nodejs";
-export const maxDuration = 900;
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ assetId: string }> }) {
   const auth = await requireAdminApi(req);
