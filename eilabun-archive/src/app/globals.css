@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme tokens — warm parchment, Melkite crimson, icon gold. */
+:root {
+  --bg: 250 246 238;
+  --surface: 255 253 248;
+  --surface-2: 244 237 224;
+  --ink: 40 24 20;
+  --muted: 112 94 84;
+  --line: 226 214 196;
+  --crimson: 139 26 38;
+  --crimson-deep: 94 14 24;
+  --gold: 176 132 46;
+  --gold-soft: 240 222 180;
+  --ok: 30 120 70;
+  --warn: 176 100 20;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: 22 16 15;
+    --surface: 33 25 23;
+    --surface-2: 45 34 31;
+    --ink: 244 234 220;
+    --muted: 184 166 150;
+    --line: 70 56 50;
+    --crimson: 214 84 92;
+    --crimson-deep: 150 40 50;
+    --gold: 222 182 96;
+    --gold-soft: 80 62 30;
+    --ok: 96 196 136;
+    --warn: 232 164 80;
+    color-scheme: dark;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+  -webkit-tap-highlight-color: transparent;
+}
+
+html[lang="ar"] body {
+  font-family: "Noto Sans Arabic", "Inter", system-ui, sans-serif;
+  line-height: 1.75;
+}
+html[lang="he"] body {
+  font-family: "Noto Sans Hebrew", "Inter", system-ui, sans-serif;
+}
+html[lang="ar"] .font-display {
+  font-family: "Amiri", "Noto Sans Arabic", serif;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-crimson text-white shadow-card hover:bg-crimson-deep;
+  }
+  .btn-ghost {
+    @apply btn border border-line bg-surface text-ink hover:border-gold hover:bg-surface-2;
+  }
+  .btn-gold {
+    @apply btn bg-gold text-white hover:brightness-110;
+  }
+  .chip {
+    @apply inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-sm text-ink transition hover:border-gold;
+  }
+  .card {
+    @apply rounded-xl2 border border-line bg-surface shadow-card;
+  }
+  .input {
+    @apply block min-h-[44px] w-full rounded-xl border border-line bg-surface px-3 py-2 text-base text-ink placeholder:text-muted/70 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-muted;
+  }
+  .section-title {
+    @apply font-display text-2xl font-semibold text-ink sm:text-3xl;
+  }
+  /* Byzantine-style ornamental divider */
+  .ornament {
+    @apply flex items-center gap-3 text-gold;
+  }
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    @apply h-px flex-1 bg-gradient-to-r from-transparent via-gold/60 to-transparent;
+  }
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-pattern {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgb(var(--gold) / 0.18), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgb(var(--crimson) / 0.22), transparent 50%),
+    linear-gradient(160deg, rgb(var(--crimson-deep)), rgb(var(--crimson)) 60%, rgb(var(--crimson-deep)));
+}

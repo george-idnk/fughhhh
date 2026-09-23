@@ -1,0 +1,92 @@
+// Eilabun Melkite Catholic Archive — data model.
+// SQLite is used for development. To use PostgreSQL, change `provider` to "postgresql"
+// and point DATABASE_URL at your server (see README → Deploying).
+// String "enums" are used (validated in src/lib/constants.ts) so the schema is portable.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Recording {
+  id               String    @id @default(cuid())
+  title            String
+  originalTitle    String?   // title exactly as published at the source
+  titleAr          String?
+  titleEn          String?
+  titleHe          String?
+  category         String    @default("OTHER")
+  subcategory      String?
+  event            String?   // e.g. "Feast of Saint George", "عيد الفصح"
+  date             DateTime? // date of the celebration/recording, when known
+  year             Int?      // year only, when the exact date is unknown
+  church           String?
+  location         String    @default("Eilabun")
+  language         String    @default("ar")
+  priest           String?
+  choir            String?
+  source           String    @default("YOUTUBE")
+  sourceUrl        String
+  canonicalUrl     String    @unique
+  youtubeVideoId   String?   @unique
+  channelName      String?   // uploader / channel — always preserved
+  channelUrl       String?
+  publishedAt      DateTime? // publication date at the source
+  thumbnailUrl     String?
+  duration         Int?      // seconds
+  description      String?
+  discoveredAt     DateTime  @default(now())
+  audioQuality     String    @default("UNKNOWN")
+  notes            String?
+  tags             String    @default("[]") // JSON array of strings
+  verification     String    @default("UNVERIFIED")
+  isAuthorized     Boolean   @default(false) // original / authorized audio
+  rightsNotes      String?
+  embeddable       Boolean   @default(true)
+  featured         Boolean   @default(false)
+  isDemo           Boolean   @default(false)
+  views            Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  audioAssets      AudioAsset[]
+
+  @@index([category])
+  @@index([year])
+  @@index([verification])
+  @@index([discoveredAt])
+}
+
+// Audio files the administrator owns or has permission to process.
+// The ORIGINAL is never modified; each enhancement run creates a new ENHANCED asset.
+model AudioAsset {
+  id              String    @id @default(cuid())
+  recordingId     String
+  recording       Recording @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+  kind            String    // ORIGINAL | ENHANCED
+  parentId        String?   // for ENHANCED: the ORIGINAL it was derived from
+  fileName        String    // stored file name inside STORAGE_DIR
+  originalName    String?
+  mimeType        String
+  sizeBytes       Int
+  sha256          String
+  settings        String?   // JSON of enhancement settings used
+  rightsStatement String?   // who holds the rights / what permission was given
+  status          String    @default("READY") // READY | PROCESSING | FAILED
+  error           String?
+  createdAt       DateTime  @default(now())
+
+  @@index([recordingId])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  lastLoginAt  DateTime?
+}
