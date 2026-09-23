@@ -21,4 +21,4 @@ export async function middleware(req: NextRequest) {
 
 // API routes are excluded on purpose: they authenticate themselves (see
 // src/lib/admin-api.ts) and large audio uploads must not be buffered here.
-export const config = { matcher: ["/admin", "/admin/:path*"], runtime: "nodejs" };
+export const config = { matcher: ["/admin", "/admin/:path*"] };
