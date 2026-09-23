@@ -1,0 +1,55 @@
+{
+  "name": "eilabun-archive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Searchable catalog of publicly available Melkite Greek Catholic liturgies, hymns and celebrations from Eilabun (عيلبون).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "setup": "prisma migrate deploy && tsx prisma/seed.ts",
+    "admin:create": "tsx scripts/create-admin.ts",
+    "audio:enhance": "tsx scripts/enhance-audio.ts",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@fontsource/amiri": "^5.3.0",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/noto-sans-arabic": "^5.3.0",
+    "@fontsource/noto-sans-hebrew": "^5.3.0",
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.12",
+    "next": "^15.5.26",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@types/node": "^22.20.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.6.1",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.26",
+    "postcss": "^8.5.28",
+    "prisma": "^6.19.3",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
